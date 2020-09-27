@@ -13,6 +13,13 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class Tag(models.Model):
+    name = models.CharField('タグ', max_length=50)
+
+    def __str__(self):
+        return self.name
+
 class Blog(models.Model):
     category = models.ForeignKey(Category,verbose_name='カテゴリ',on_delete=models.PROTECT,related_name='blogs')
     writer = models.CharField('投稿者',max_length=255,default="名無しさん")
@@ -20,6 +27,7 @@ class Blog(models.Model):
     text = models.TextField('記事本文',blank=False)
     created_at = models.DateTimeField('作成日',default=timezone.now)
     views = models.PositiveIntegerField(default=0)
+    tag = models.ManyToManyField(Tag, verbose_name='タグ',related_name='blogs')
     # like = models.IntegerField(default=0)
 
     def __str__(self):
