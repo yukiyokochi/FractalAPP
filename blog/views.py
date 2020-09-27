@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.views import generic
-from .models import Blog, Category, Comment
+from .models import Blog, Category, Comment, Tag
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import BlogCreateForm, CommentCreateForm, PostSearchForm
 from django.db.models import Q
@@ -17,7 +17,9 @@ class CategoryListView(generic.ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['blog_views'] = Blog.objects.order_by('-views')[:4]
+        ctx['tag_list'] = Tag.objects.all()[:1]
         return ctx
+
 
 
 class CategoriesListView(generic.ListView):
